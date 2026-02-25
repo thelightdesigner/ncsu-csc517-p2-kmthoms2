@@ -81,18 +81,11 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: csc_ece_517_spring_2026_program_2_1_production
-    username: csc_ece_517_spring_2026_program_2_1
-    password: <%= ENV["CSC_ECE_517_SPRING_2026_PROGRAM_2_1_DATABASE_PASSWORD"] %>
+    # Use the URL provided by Render instead of manual host/username/password
+    url: <%= ENV["DATABASE_URL"] %>
   cache:
     <<: *primary_production
-    database: csc_ece_517_spring_2026_program_2_1_production_cache
-    migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: csc_ece_517_spring_2026_program_2_1_production_queue
-    migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: csc_ece_517_spring_2026_program_2_1_production_cable
-    migrations_paths: db/cable_migrate
