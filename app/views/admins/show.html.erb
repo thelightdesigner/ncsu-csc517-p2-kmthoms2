@@ -1,0 +1,9 @@
+<% content_for :title, "Admin Profile" %>
+
+<h1>Admin Profile</h1>
+<p><strong>ID:</strong> <%= @admin.id %></p>
+<p><strong>Username:</strong> <%= @admin.username %></p>
+<p><strong>Full name:</strong> <%= @admin.full_name %></p>
+<p><strong>Email:</strong> <%= @admin.email %></p>
+
+<p><%= link_to "Edit Profile", edit_admin_profile_path %></p>

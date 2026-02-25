@@ -1,0 +1,38 @@
+<%= form_with model: @event, url: @event.new_record? ? admin_events_path : admin_event_path(@event), method: @event.new_record? ? :post : :patch do |form| %>
+  <% if @event.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@event.errors.count, "error") %> prevented save:</h2>
+      <ul>
+        <% @event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :title, style: "display: block" %>
+  <%= form.text_field :title, required: true %>
+
+  <%= form.label :description, style: "display: block" %>
+  <%= form.text_area :description, required: true %>
+
+  <%= form.label :location, style: "display: block" %>
+  <%= form.text_field :location, required: true %>
+
+  <%= form.label :event_date, style: "display: block" %>
+  <%= form.date_field :event_date, required: true %>
+
+  <%= form.label :start_time, style: "display: block" %>
+  <%= form.time_field :start_time, required: true %>
+
+  <%= form.label :end_time, style: "display: block" %>
+  <%= form.time_field :end_time, required: true %>
+
+  <%= form.label :required_volunteer_count, style: "display: block" %>
+  <%= form.number_field :required_volunteer_count, min: 1, required: true %>
+
+  <%= form.label :status, style: "display: block" %>
+  <%= form.select :status, Event.statuses.keys.map { |s| [s.humanize, s] } %>
+
+  <%= form.submit %>
+<% end %>

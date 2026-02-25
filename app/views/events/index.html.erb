@@ -1,0 +1,38 @@
+<% content_for :title, "Available Events" %>
+
+<h1>Available Events</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event title</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>Required volunteers</th>
+      <th>Current approved volunteers</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event.title %></td>
+        <td><%= event.event_date %></td>
+        <td><%= event.location %></td>
+        <td><%= event.required_volunteer_count %></td>
+        <td><%= event.assigned_volunteer_count %></td>
+        <td><%= event.status %></td>
+        <td>
+          <% if @my_assignment_event_ids.include?(event.id) %>
+            Signed up
+          <% elsif event.open? %>
+            <%= button_to "Sign Up", event_volunteer_assignments_path(event), method: :post %>
+          <% else %>
+            Not open for sign-up
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

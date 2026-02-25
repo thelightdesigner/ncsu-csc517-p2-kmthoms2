@@ -1,0 +1,26 @@
+<% content_for :title, "All Volunteers" %>
+
+<h1>All Volunteers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Total Hours</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @volunteers.each do |volunteer| %>
+      <tr>
+        <td><%= volunteer.id %></td>
+        <td><%= volunteer.username %></td>
+        <td><%= volunteer.full_name %></td>
+        <td><%= volunteer.email %></td>
+        <td><%= volunteer.total_logged_hours %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

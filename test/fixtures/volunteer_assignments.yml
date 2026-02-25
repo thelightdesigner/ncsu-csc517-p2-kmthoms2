@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  volunteer: one
+  event: one
+  status: 1
+  hours_worked: 1.5
+  date_logged: 2026-02-20 20:11:29
+
+two:
+  volunteer: two
+  event: two
+  status: 1
+  hours_worked: 1.5
+  date_logged: 2026-02-20 20:11:29

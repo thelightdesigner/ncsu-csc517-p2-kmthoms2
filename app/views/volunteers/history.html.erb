@@ -1,0 +1,25 @@
+<% content_for :title, "Volunteering History" %>
+
+<h1>Volunteering History</h1>
+<p><strong>Total hours worked:</strong> <%= @total_hours %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Date</th>
+      <th>Hours worked</th>
+      <th>Date logged</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignments_with_hours.each do |assignment| %>
+      <tr>
+        <td><%= assignment.event.title %></td>
+        <td><%= assignment.event.event_date %></td>
+        <td><%= assignment.hours_worked %></td>
+        <td><%= assignment.date_logged %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

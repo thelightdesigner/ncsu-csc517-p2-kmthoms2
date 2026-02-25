@@ -1,0 +1,15 @@
+<% content_for :title, "My Profile" %>
+
+<h1>My Profile</h1>
+
+<p><strong>ID:</strong> <%= @volunteer.id %></p>
+<p><strong>Username:</strong> <%= @volunteer.username %></p>
+<p><strong>Full name:</strong> <%= @volunteer.full_name %></p>
+<p><strong>Email:</strong> <%= @volunteer.email %></p>
+<p><strong>Phone number:</strong> <%= @volunteer.phone_number %></p>
+<p><strong>Address:</strong> <%= @volunteer.address %></p>
+<p><strong>Skills:</strong> <%= @volunteer.skills %></p>
+<p><strong>Interests:</strong> <%= @volunteer.interests %></p>
+
+<p><%= link_to "Edit Profile", edit_volunteer_profile_path %></p>
+<p><%= button_to "Delete My Account", volunteer_profile_path, method: :delete, data: { turbo_confirm: "Are you sure?" } %></p>

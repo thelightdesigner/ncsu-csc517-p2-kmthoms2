@@ -1,0 +1,12 @@
+<% content_for :title, "Event Details" %>
+
+<h1><%= @event.title %></h1>
+<p><strong>Description:</strong> <%= @event.description %></p>
+<p><strong>Date:</strong> <%= @event.event_date %></p>
+<p><strong>Location:</strong> <%= @event.location %></p>
+<p><strong>Start time:</strong> <%= @event.start_time %></p>
+<p><strong>End time:</strong> <%= @event.end_time %></p>
+<p><strong>Required volunteers:</strong> <%= @event.required_volunteer_count %></p>
+<p><strong>Current assigned volunteers:</strong> <%= @event.assigned_volunteer_count %></p>
+<p><strong>Status:</strong> <%= @event.status %></p>
+<p><%= link_to "Back to Available Events", events_path %></p>

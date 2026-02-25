@@ -1,0 +1,37 @@
+<% content_for :title, "All Volunteer Assignments" %>
+
+<h1>All Volunteer Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Volunteer</th>
+      <th>Event</th>
+      <th>Status</th>
+      <th>Hours worked</th>
+      <th>Date logged</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @volunteer_assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.volunteer.full_name %></td>
+        <td><%= assignment.event.title %></td>
+        <td><%= assignment.status %></td>
+        <td><%= assignment.hours_worked %></td>
+        <td><%= assignment.date_logged %></td>
+        <td>
+          <% if assignment.pending? %>
+            <%= button_to "Approve", approve_admin_volunteer_assignment_path(assignment), method: :patch %>
+          <% end %>
+          <% if assignment.approved? %>
+            <%= button_to "Mark Completed", complete_admin_volunteer_assignment_path(assignment), method: :patch %>
+          <% end %>
+          <%= link_to "Log Hours", edit_admin_volunteer_assignment_path(assignment) %>
+          <%= button_to "Remove", admin_volunteer_assignment_path(assignment), method: :delete, data: { turbo_confirm: "Remove this assignment?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

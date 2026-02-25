@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  location: MyString
+  event_date: 2026-02-20
+  start_time: 2026-02-20 20:11:07
+  end_time: 2026-02-20 20:11:07
+  required_volunteer_count: 1
+  status: 1
+
+two:
+  title: MyString
+  description: MyText
+  location: MyString
+  event_date: 2026-02-20
+  start_time: 2026-02-20 20:11:07
+  end_time: 2026-02-20 20:11:07
+  required_volunteer_count: 1
+  status: 1

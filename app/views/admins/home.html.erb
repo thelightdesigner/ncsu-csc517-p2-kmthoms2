@@ -1,0 +1,11 @@
+<% content_for :title, "Admin Home" %>
+
+<h1>Admin Home</h1>
+<p>Welcome, <%= @admin.full_name %>.</p>
+
+<ul>
+  <li><%= link_to "Edit my profile", edit_admin_profile_path %></li>
+  <li><%= link_to "View all volunteers", admin_volunteers_path %></li>
+  <li><%= link_to "View all events", admin_events_path %></li>
+  <li><%= link_to "View all volunteer assignments", admin_volunteer_assignments_path %></li>
+</ul>

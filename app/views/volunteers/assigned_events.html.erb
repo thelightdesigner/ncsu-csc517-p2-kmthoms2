@@ -1,0 +1,28 @@
+<% content_for :title, "My Assigned Events" %>
+
+<h1>Events Assigned To Me</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event title</th>
+      <th>Date</th>
+      <th>Location</th>
+      <th>Assignment status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.event.title %></td>
+        <td><%= assignment.event.event_date %></td>
+        <td><%= assignment.event.location %></td>
+        <td><%= assignment.status %></td>
+        <td>
+          <%= button_to "Withdraw", volunteer_assignment_path(assignment), method: :delete, data: { turbo_confirm: "Withdraw from this event?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

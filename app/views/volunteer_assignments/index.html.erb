@@ -1,0 +1,22 @@
+<% content_for :title, "My Volunteer Assignments" %>
+
+<h1>My Volunteer Assignments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Status</th>
+      <th>Hours worked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @volunteer_assignments.each do |assignment| %>
+      <tr>
+        <td><%= assignment.event.title %></td>
+        <td><%= assignment.status %></td>
+        <td><%= assignment.hours_worked %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

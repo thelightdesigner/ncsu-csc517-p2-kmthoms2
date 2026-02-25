@@ -1,0 +1,29 @@
+<% content_for :title, "Log Volunteer Hours" %>
+
+<h1>Log Volunteer Hours</h1>
+<p><strong>Volunteer:</strong> <%= @assignment.volunteer.full_name %></p>
+<p><strong>Event:</strong> <%= @assignment.event.title %></p>
+<p><strong>Status:</strong> <%= @assignment.status %></p>
+
+<%= form_with model: @assignment, url: admin_volunteer_assignment_path(@assignment), method: :patch do |form| %>
+  <% if @assignment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@assignment.errors.count, "error") %> prevented save:</h2>
+      <ul>
+        <% @assignment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :hours_worked, style: "display: block" %>
+  <%= form.number_field :hours_worked, step: 0.25, min: 0 %>
+
+  <%= form.label :date_logged, style: "display: block" %>
+  <%= form.datetime_local_field :date_logged %>
+
+  <%= form.submit "Save Hours" %>
+<% end %>
+
+<p><%= link_to "Back to Assignments", admin_volunteer_assignments_path %></p>

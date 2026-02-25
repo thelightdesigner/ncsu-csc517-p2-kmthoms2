@@ -1,0 +1,11 @@
+<% content_for :title, "Volunteer Home" %>
+
+<h1>Volunteer Home</h1>
+<p>Welcome, <%= @volunteer.full_name %>.</p>
+
+<ul>
+  <li><%= link_to "Edit my profile", edit_volunteer_profile_path %></li>
+  <li><%= link_to "View all available events", events_path %></li>
+  <li><%= link_to "View events assigned to me", assigned_events_path %></li>
+  <li><%= link_to "View volunteering history and total hours", volunteer_history_path %></li>
+</ul>
