@@ -5,10 +5,6 @@ class AdminsController < ApplicationController
     @admin = current_admin
   end
 
-  def volunteers
-    @volunteers = Volunteer.order(:full_name)
-  end
-
   def show
     @admin = current_admin
   end

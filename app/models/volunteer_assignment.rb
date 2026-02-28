@@ -12,6 +12,7 @@ class VolunteerAssignment < ApplicationRecord
   validate :hours_within_event_duration
   validate :hours_only_for_participated_event
   validate :completed_requires_completed_event
+  validate :cannot_exceed_event_capacity, if: :counts_toward_capacity?
 
   after_commit :sync_related_event, on: %i[create update destroy]
 
@@ -41,5 +42,18 @@ class VolunteerAssignment < ApplicationRecord
     return if event&.completed?
 
     errors.add(:status, "can only be marked completed when the event is completed")
+  end
+
+  def counts_toward_capacity?
+    approved? || completed?
+  end
+
+  def cannot_exceed_event_capacity
+    return if event.blank?
+
+    assigned_count_without_self = event.volunteer_assignments.assigned_for_capacity.where.not(id: id).count
+    return if assigned_count_without_self < event.required_volunteer_count
+
+    errors.add(:base, "Event has no available volunteer slots")
   end
 end

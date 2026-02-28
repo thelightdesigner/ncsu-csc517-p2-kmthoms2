@@ -1,0 +1,109 @@
+<% content_for :title, "Volunteer Analytics" %>
+
+<h1>Volunteer Analytics</h1>
+
+<%= form_with url: admin_analytics_path, method: :get, local: true do |form| %>
+  <%= form.label :date_from, "Date from", style: "display: block" %>
+  <%= form.date_field :date_from, value: @filters[:date_from] %>
+
+  <%= form.label :date_to, "Date to", style: "display: block" %>
+  <%= form.date_field :date_to, value: @filters[:date_to] %>
+
+  <%= form.label :event_id, "Event", style: "display: block" %>
+  <%= form.select :event_id, options_from_collection_for_select(@events, :id, :title, @filters[:event_id]), include_blank: "All events" %>
+
+  <%= form.label :volunteer_id, "Volunteer", style: "display: block" %>
+  <%= form.select :volunteer_id, options_from_collection_for_select(@volunteers, :id, :full_name, @filters[:volunteer_id]), include_blank: "All volunteers" %>
+
+  <%= form.label :top_metric, "Top volunteers by", style: "display: block" %>
+  <%= form.select :top_metric, [["Total hours worked", "hours"], ["Number of events participated", "events"]], selected: @filters[:top_metric] %>
+
+  <%= form.label :top_n, "Top N", style: "display: block" %>
+  <%= form.number_field :top_n, value: @filters[:top_n], min: 1, max: 100 %>
+
+  <%= form.submit "Apply Filters" %>
+<% end %>
+
+<h2>Volunteer Activity Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Volunteer</th>
+      <th>Events Participated</th>
+      <th>Total Hours</th>
+      <th>Average Hours Per Event</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @volunteer_activity_summary.each do |row| %>
+      <tr>
+        <td><%= row[:volunteer_name] %></td>
+        <td><%= row[:events_participated] %></td>
+        <td><%= format("%.2f", row[:total_hours]) %></td>
+        <td><%= format("%.2f", row[:average_hours_per_event]) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Event Participation Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Assigned Volunteers</th>
+      <th>Total Logged Hours</th>
+      <th>Average Hours Per Volunteer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @event_participation_summary.each do |row| %>
+      <tr>
+        <td><%= row[:event_title] %></td>
+        <td><%= row[:volunteer_count] %></td>
+        <td><%= format("%.2f", row[:total_hours]) %></td>
+        <td><%= format("%.2f", row[:average_hours_per_volunteer]) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Top Volunteers</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Volunteer</th>
+      <th>Events Participated</th>
+      <th>Total Hours</th>
+      <th>Average Hours Per Event</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @top_volunteers.each do |row| %>
+      <tr>
+        <td><%= row[:volunteer_name] %></td>
+        <td><%= row[:events_participated] %></td>
+        <td><%= format("%.2f", row[:total_hours]) %></td>
+        <td><%= format("%.2f", row[:average_hours_per_event]) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Low Participation Volunteers</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Volunteer</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @low_participation_volunteers.each do |volunteer| %>
+      <tr>
+        <td><%= volunteer.full_name %></td>
+        <td><%= volunteer.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

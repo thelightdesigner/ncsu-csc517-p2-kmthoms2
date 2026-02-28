@@ -1,9 +1,29 @@
 class AdminVolunteerAssignmentsController < ApplicationController
   before_action :require_admin
   before_action :set_assignment, only: %i[edit update destroy approve complete]
+  before_action :set_assignment_collections, only: %i[new create]
 
   def index
     @volunteer_assignments = VolunteerAssignment.includes(:volunteer, :event).order(created_at: :desc)
+  end
+
+  def new
+    @assignment = VolunteerAssignment.new(event_id: params[:event_id])
+  end
+
+  def create
+    @assignment = VolunteerAssignment.new(assignment_params)
+    save_succeeded = if @assignment.event.present? && (@assignment.approved? || @assignment.completed?)
+      @assignment.event.with_lock { @assignment.save }
+    else
+      @assignment.save
+    end
+
+    if save_succeeded
+      redirect_to admin_volunteer_assignments_path, notice: "Volunteer assignment created successfully."
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -59,5 +79,14 @@ class AdminVolunteerAssignmentsController < ApplicationController
 
   def hours_params
     params.require(:volunteer_assignment).permit(:hours_worked, :date_logged)
+  end
+
+  def assignment_params
+    params.require(:volunteer_assignment).permit(:volunteer_id, :event_id, :status)
+  end
+
+  def set_assignment_collections
+    @volunteers = Volunteer.order(:full_name)
+    @events = Event.where.not(status: :cancelled).order(:event_date, :start_time)
   end
 end

@@ -5,7 +5,11 @@ class Event < ApplicationRecord
   enum :status, { open: 0, full: 1, completed: 2, cancelled: 3 }, default: :open
 
   validates :title, :description, :location, :event_date, :start_time, :end_time, :required_volunteer_count, presence: true
-  validates :required_volunteer_count, numericality: { only_integer: true, greater_than: 0 }
+  validates :required_volunteer_count, numericality: {
+    only_integer: true,
+    greater_than: 0,
+    less_than_or_equal_to: 2_147_483_647
+  }
   validate :start_time_before_end_time
 
   after_save :refresh_capacity_status!, if: :saved_change_to_required_volunteer_count?

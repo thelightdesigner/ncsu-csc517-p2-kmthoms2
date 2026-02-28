@@ -12,4 +12,5 @@
 <p><strong>Status:</strong> <%= @event.status %></p>
 
 <p><%= link_to "Edit Event", edit_admin_event_path(@event) %></p>
+<p><%= link_to "Assign Volunteer to Event", new_admin_volunteer_assignment_path(event_id: @event.id) %></p>
 <p><%= link_to "Back to Events", admin_events_path %></p>

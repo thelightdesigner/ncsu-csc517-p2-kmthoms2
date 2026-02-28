@@ -10,7 +10,12 @@ class VolunteersController < ApplicationController
   end
 
   def history
-    @assignments_with_hours = current_volunteer.volunteer_assignments.includes(:event).where.not(hours_worked: nil).order(date_logged: :desc)
+    @assignments_with_hours = current_volunteer.volunteer_assignments
+                                             .joins(:event)
+                                             .includes(:event)
+                                             .where.not(hours_worked: nil)
+                                             .where(events: { status: Event.statuses[:completed] })
+                                             .order(date_logged: :desc)
     @total_hours = current_volunteer.total_logged_hours
   end
 
@@ -19,6 +24,9 @@ class VolunteersController < ApplicationController
   end
 
   def new
+    return redirect_to volunteer_home_path if volunteer_logged_in?
+    return redirect_to admin_home_path if admin_logged_in?
+
     @volunteer = Volunteer.new
   end
 

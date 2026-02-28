@@ -1,0 +1,29 @@
+<% content_for :title, "Create Volunteer Assignment" %>
+
+<h1>Create Volunteer Assignment</h1>
+
+<%= form_with model: @assignment, url: admin_volunteer_assignments_path, method: :post do |form| %>
+  <% if @assignment.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@assignment.errors.count, "error") %> prevented save:</h2>
+      <ul>
+        <% @assignment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :volunteer_id, "Volunteer", style: "display: block" %>
+  <%= form.collection_select :volunteer_id, @volunteers, :id, :full_name, { prompt: "Select volunteer" }, { required: true } %>
+
+  <%= form.label :event_id, "Event", style: "display: block" %>
+  <%= form.collection_select :event_id, @events, :id, :title, { prompt: "Select event" }, { required: true } %>
+
+  <%= form.label :status, style: "display: block" %>
+  <%= form.select :status, [["Approved", "approved"], ["Pending", "pending"]], selected: "approved" %>
+
+  <%= form.submit "Create Assignment" %>
+<% end %>
+
+<p><%= link_to "Back to Assignments", admin_volunteer_assignments_path %></p>

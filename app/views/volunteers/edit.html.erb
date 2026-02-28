@@ -25,7 +25,7 @@
   <%= form.email_field :email, required: true %>
 
   <%= form.label :phone_number, style: "display: block" %>
-  <%= form.number_field :phone_number %>
+  <%= form.telephone_field :phone_number, maxlength: 20, pattern: "[0-9]*", inputmode: "numeric" %>
 
   <%= form.label :address, style: "display: block" %>
   <%= form.text_field :address %>

@@ -19,10 +19,11 @@ Rails.application.routes.draw do
 
   # Admin routes
   get "admin/home", to: "admins#home", as: :admin_home
-  get "admin/volunteers", to: "admins#volunteers", as: :admin_volunteers
+  get "admin/analytics", to: "admin_analytics#index", as: :admin_analytics
   resource :admin_profile, controller: "admins", only: %i[show edit update]
+  resources :admin_volunteers, controller: "admin_volunteers"
   resources :admin_events, controller: "admin_events"
-  resources :admin_volunteer_assignments, controller: "admin_volunteer_assignments", only: %i[index edit update destroy]
+  resources :admin_volunteer_assignments, controller: "admin_volunteer_assignments", only: %i[index new create edit update destroy]
   patch "admin_volunteer_assignments/:id/approve", to: "admin_volunteer_assignments#approve", as: :approve_admin_volunteer_assignment
   patch "admin_volunteer_assignments/:id/complete", to: "admin_volunteer_assignments#complete", as: :complete_admin_volunteer_assignment
 

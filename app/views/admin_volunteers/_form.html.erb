@@ -1,0 +1,38 @@
+<%= form_with model: @volunteer, url: @volunteer.new_record? ? admin_volunteers_path : admin_volunteer_path(@volunteer), method: @volunteer.new_record? ? :post : :patch do |form| %>
+  <% if @volunteer.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@volunteer.errors.count, "error") %> prevented save:</h2>
+      <ul>
+        <% @volunteer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label :username, style: "display: block" %>
+  <%= form.text_field :username, required: true %>
+
+  <%= form.label :password, style: "display: block" %>
+  <%= form.password_field :password, required: true %>
+
+  <%= form.label :full_name, style: "display: block" %>
+  <%= form.text_field :full_name, required: true %>
+
+  <%= form.label :email, style: "display: block" %>
+  <%= form.email_field :email, required: true %>
+
+  <%= form.label :phone_number, style: "display: block" %>
+  <%= form.telephone_field :phone_number, maxlength: 20, pattern: "[0-9]*", inputmode: "numeric" %>
+
+  <%= form.label :address, style: "display: block" %>
+  <%= form.text_field :address %>
+
+  <%= form.label :skills, style: "display: block" %>
+  <%= form.text_area :skills %>
+
+  <%= form.label :interests, style: "display: block" %>
+  <%= form.text_area :interests %>
+
+  <%= form.submit %>
+<% end %>
