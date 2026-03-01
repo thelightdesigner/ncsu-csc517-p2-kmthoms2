@@ -8,3 +8,14 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+table {
+  table-layout: auto;
+}
+
+th,
+td {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+}

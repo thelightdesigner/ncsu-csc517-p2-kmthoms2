@@ -33,4 +33,21 @@ class AdminVolunteersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to admin_volunteers_path
   end
+
+  test "admin can update volunteer email to a valid address" do
+    post login_path, params: { login: { username: @admin.username, password: @admin.password, account_type: "admin" } }
+
+    patch admin_volunteer_path(@volunteer), params: {
+      volunteer: {
+        username: @volunteer.username,
+        password: @volunteer.password,
+        full_name: @volunteer.full_name,
+        email: "updated_volunteer@example.com"
+      }
+    }
+
+    assert_redirected_to admin_volunteer_path(@volunteer)
+    @volunteer.reload
+    assert_equal "updated_volunteer@example.com", @volunteer.email
+  end
 end

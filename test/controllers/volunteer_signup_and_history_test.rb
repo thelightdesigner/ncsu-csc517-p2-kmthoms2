@@ -47,4 +47,19 @@ class VolunteerSignupAndHistoryTest < ActionDispatch::IntegrationTest
     assert_includes @response.body, "Completed History Event"
     assert_not_includes @response.body, "Open History Event"
   end
+
+  test "signup accepts a valid email address" do
+    assert_difference("Volunteer.count", 1) do
+      post signup_path, params: {
+        volunteer: {
+          username: "new_signup_user",
+          password: "password",
+          full_name: "New Signup User",
+          email: "new_signup_user@example.com"
+        }
+      }
+    end
+
+    assert_redirected_to volunteer_home_path
+  end
 end

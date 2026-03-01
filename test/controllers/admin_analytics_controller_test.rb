@@ -82,4 +82,13 @@ class AdminAnalyticsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes @response.body, "No Participation Volunteer"
   end
+
+  test "invalid filter params do not crash analytics page" do
+    post login_path, params: { login: { username: @admin.username, password: @admin.password, account_type: "admin" } }
+
+    get admin_analytics_path, params: { event_id: "not-an-id", volunteer_id: "bad-id", date_from: { year: "2026" } }
+
+    assert_response :success
+    assert_includes @response.body, "Volunteer Analytics"
+  end
 end

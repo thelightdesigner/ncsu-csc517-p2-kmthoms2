@@ -4,10 +4,10 @@ one:
   username: MyString
   password: MyString
   full_name: MyString
-  email: MyString
+  email: admin_one@example.com
 
 two:
   username: MyString
   password: MyString
   full_name: MyString
-  email: MyString
+  email: admin_two@example.com

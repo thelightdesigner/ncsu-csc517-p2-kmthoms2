@@ -7,7 +7,7 @@
     <%= csp_meta_tag %>
 
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple-v1.css">
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -36,6 +36,7 @@
         <%= link_to "Volunteers", admin_volunteers_path %>
         <%= link_to "Events", admin_events_path %>
         <%= link_to "Assignments", admin_volunteer_assignments_path %>
+        <%= link_to "Analytics", admin_analytics_path %>
         <%= button_to "Log out", logout_path, method: :delete %>
       </nav>
     <% end %>

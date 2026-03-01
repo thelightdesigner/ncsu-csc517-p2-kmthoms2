@@ -28,4 +28,32 @@ class AdminVolunteerAssignmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to admin_volunteer_assignments_path
   end
+
+  test "admin can remove completed assignment with logged hours" do
+    post login_path, params: { login: { username: @admin.username, password: @admin.password, account_type: "admin" } }
+
+    completed_event = Event.create!(
+      title: "Completed Assignment Removal Event",
+      description: "Desc",
+      location: "Location",
+      event_date: Date.new(2026, 2, 20),
+      start_time: Time.zone.parse("09:00"),
+      end_time: Time.zone.parse("11:00"),
+      required_volunteer_count: 5,
+      status: :completed
+    )
+
+    assignment = VolunteerAssignment.create!(
+      volunteer: @volunteer,
+      event: completed_event,
+      status: :completed,
+      hours_worked: 2.5
+    )
+
+    assert_difference("VolunteerAssignment.count", -1) do
+      delete admin_volunteer_assignment_path(assignment)
+    end
+
+    assert_redirected_to admin_volunteer_assignments_path
+  end
 end

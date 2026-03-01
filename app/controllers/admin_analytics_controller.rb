@@ -115,8 +115,8 @@ class AdminAnalyticsController < ApplicationController
     {
       date_from: date_from,
       date_to: date_to,
-      event_id: params[:event_id].presence,
-      volunteer_id: params[:volunteer_id].presence,
+      event_id: safe_integer(params[:event_id]),
+      volunteer_id: safe_integer(params[:volunteer_id]),
       top_metric: %w[hours events].include?(params[:top_metric]) ? params[:top_metric] : "hours",
       top_n: top_n.between?(1, 100) ? top_n : 5
     }
@@ -126,7 +126,15 @@ class AdminAnalyticsController < ApplicationController
     return nil if value.blank?
 
     Date.parse(value.to_s)
-  rescue ArgumentError
+  rescue ArgumentError, TypeError
+    nil
+  end
+
+  def safe_integer(value)
+    return nil if value.blank?
+
+    Integer(value)
+  rescue ArgumentError, TypeError
     nil
   end
 end

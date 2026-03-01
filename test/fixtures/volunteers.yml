@@ -4,7 +4,7 @@ one:
   username: MyString
   password: MyString
   full_name: MyString
-  email: MyString
+  email: one@example.com
   phone_number: 1
   address: MyString
   skills: MyText
@@ -15,7 +15,7 @@ two:
   username: MyString
   password: MyString
   full_name: MyString
-  email: MyString
+  email: two@example.com
   phone_number: 1
   address: MyString
   skills: MyText

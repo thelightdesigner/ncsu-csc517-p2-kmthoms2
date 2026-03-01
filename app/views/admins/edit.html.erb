@@ -1,7 +1,7 @@
 <% content_for :title, "Edit Admin Profile" %>
 
 <h1>Edit Admin Profile</h1>
-<p>Username cannot be changed.</p>
+<p>Username and password cannot be changed.</p>
 
 <%= form_with model: @admin, url: admin_profile_path, method: :patch do |form| %>
   <% if @admin.errors.any? %>
@@ -14,9 +14,6 @@
       </ul>
     </div>
   <% end %>
-
-  <%= form.label :password, style: "display: block" %>
-  <%= form.password_field :password, required: true %>
 
   <%= form.label :full_name, style: "display: block" %>
   <%= form.text_field :full_name, required: true %>

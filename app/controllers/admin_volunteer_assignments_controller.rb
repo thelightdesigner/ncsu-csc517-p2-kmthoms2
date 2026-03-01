@@ -66,7 +66,6 @@ class AdminVolunteerAssignmentsController < ApplicationController
   end
 
   def destroy
-    @assignment.update!(status: :removed)
     @assignment.destroy!
     redirect_to admin_volunteer_assignments_path, notice: "Assignment removed from event."
   end
