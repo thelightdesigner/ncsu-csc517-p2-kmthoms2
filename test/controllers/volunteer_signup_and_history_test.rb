@@ -54,6 +54,7 @@ class VolunteerSignupAndHistoryTest < ActionDispatch::IntegrationTest
         volunteer: {
           username: "new_signup_user",
           password: "password",
+          password_confirmation: "password",
           full_name: "New Signup User",
           email: "new_signup_user@example.com"
         }
@@ -61,5 +62,22 @@ class VolunteerSignupAndHistoryTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to volunteer_home_path
+  end
+
+  test "signup rejects mismatched password confirmation" do
+    assert_no_difference("Volunteer.count") do
+      post signup_path, params: {
+        volunteer: {
+          username: "bad_signup_user",
+          password: "password",
+          password_confirmation: "not-the-same",
+          full_name: "Bad Signup User",
+          email: "bad_signup_user@example.com"
+        }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_includes @response.body, "Password confirmation doesn&#39;t match password"
   end
 end

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resource :admin_profile, controller: "admins", only: %i[show edit update]
   resources :admin_volunteers, controller: "admin_volunteers"
   resources :admin_events, controller: "admin_events"
+  patch "admin_events/:id/complete", to: "admin_events#complete", as: :complete_admin_event
   resources :admin_volunteer_assignments, controller: "admin_volunteer_assignments", only: %i[index new create edit update destroy]
   patch "admin_volunteer_assignments/:id/approve", to: "admin_volunteer_assignments#approve", as: :approve_admin_volunteer_assignment
   patch "admin_volunteer_assignments/:id/complete", to: "admin_volunteer_assignments#complete", as: :complete_admin_volunteer_assignment

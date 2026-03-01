@@ -35,7 +35,12 @@ class VolunteersController < ApplicationController
   end
 
   def create
-    @volunteer = Volunteer.new(signup_params)
+    @volunteer = Volunteer.new(signup_params.except(:password_confirmation))
+
+    if signup_params[:password].to_s != signup_params[:password_confirmation].to_s
+      @volunteer.errors.add(:password_confirmation, "doesn't match password")
+      return render :new, status: :unprocessable_entity
+    end
 
     if @volunteer.save
       clear_session
@@ -57,6 +62,7 @@ class VolunteersController < ApplicationController
   end
 
   def destroy
+    VolunteerAssignment.where(volunteer_id: current_volunteer.id).find_each(&:destroy!)
     current_volunteer.destroy!
     clear_session
     redirect_to root_path, notice: "Your account has been deleted."
@@ -65,7 +71,7 @@ class VolunteersController < ApplicationController
   private
 
   def signup_params
-    params.require(:volunteer).permit(:username, :password, :full_name, :email, :phone_number, :address, :skills, :interests)
+    params.require(:volunteer).permit(:username, :password, :password_confirmation, :full_name, :email, :phone_number, :address, :skills, :interests)
   end
 
   def profile_params

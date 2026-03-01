@@ -27,8 +27,12 @@ class AdminVolunteersControllerTest < ActionDispatch::IntegrationTest
   test "admin can destroy volunteer" do
     post login_path, params: { login: { username: @admin.username, password: @admin.password, account_type: "admin" } }
 
+    VolunteerAssignment.create!(volunteer: @volunteer, event: events(:one), status: :pending)
+
     assert_difference("Volunteer.count", -1) do
-      delete admin_volunteer_path(@volunteer)
+      assert_difference("VolunteerAssignment.count", -1) do
+        delete admin_volunteer_path(@volunteer)
+      end
     end
 
     assert_redirected_to admin_volunteers_path

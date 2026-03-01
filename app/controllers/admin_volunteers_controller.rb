@@ -35,6 +35,7 @@ class AdminVolunteersController < ApplicationController
   end
 
   def destroy
+    VolunteerAssignment.where(volunteer_id: @volunteer.id).find_each(&:destroy!)
     @volunteer.destroy!
     redirect_to admin_volunteers_path, notice: "Volunteer was successfully deleted.", status: :see_other
   end

@@ -30,6 +30,9 @@
           <%= link_to "View", admin_event_path(event) %> |
           <%= link_to "Edit", edit_admin_event_path(event) %> |
           <%= link_to "Assign Volunteer", new_admin_volunteer_assignment_path(event_id: event.id) %> |
+          <% unless event.completed? || event.cancelled? %>
+            <%= button_to "Complete Event", complete_admin_event_path(event), method: :patch, data: { turbo_confirm: "Mark this event as completed?" } %>
+          <% end %>
           <%= button_to "Delete", admin_event_path(event), method: :delete, data: { turbo_confirm: "Delete this event?" } %>
         </td>
       </tr>

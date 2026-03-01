@@ -1,9 +1,10 @@
 class AdminEventsController < ApplicationController
   before_action :require_admin
-  before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_event, only: %i[show edit update destroy complete]
 
   def index
     @events = Event.includes(:volunteer_assignments).order(:event_date, :start_time)
+    @events.each(&:sync_assignment_totals!)
   end
 
   def show
@@ -39,6 +40,24 @@ class AdminEventsController < ApplicationController
   def destroy
     @event.destroy!
     redirect_to admin_events_path, notice: "Event was successfully deleted.", status: :see_other
+  end
+
+  def complete
+    if @event.completed?
+      redirect_to admin_events_path, alert: "Event is already marked as completed."
+      return
+    end
+
+    if @event.cancelled?
+      redirect_to admin_events_path, alert: "Cancelled events cannot be marked as completed."
+      return
+    end
+
+    if @event.update(status: :completed)
+      redirect_to admin_events_path, notice: "Event marked as completed."
+    else
+      redirect_to admin_events_path, alert: @event.errors.full_messages.to_sentence
+    end
   end
 
   private

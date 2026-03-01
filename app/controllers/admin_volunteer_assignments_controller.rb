@@ -4,7 +4,10 @@ class AdminVolunteerAssignmentsController < ApplicationController
   before_action :set_assignment_collections, only: %i[new create]
 
   def index
-    @volunteer_assignments = VolunteerAssignment.includes(:volunteer, :event).order(created_at: :desc)
+    Event.where.not(status: [ :completed, :cancelled ]).find_each(&:sync_assignment_totals!)
+    @volunteer_assignments = VolunteerAssignment.joins(:volunteer, :event)
+                                                .includes(:volunteer, :event)
+                                                .order(created_at: :desc)
   end
 
   def new

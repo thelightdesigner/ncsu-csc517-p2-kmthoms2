@@ -15,7 +15,7 @@ class Event < ApplicationRecord
   after_save :refresh_capacity_status!, if: :saved_change_to_required_volunteer_count?
 
   def assigned_volunteer_count
-    current_assigned_volunteer_count
+    volunteer_assignments.assigned_for_capacity.count
   end
 
   def pending_assignments_count

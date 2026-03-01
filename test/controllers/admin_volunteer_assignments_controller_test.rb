@@ -27,6 +27,7 @@ class AdminVolunteerAssignmentsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_volunteer_assignments_path
+    assert @event.reload.full?
   end
 
   test "admin can remove completed assignment with logged hours" do
@@ -55,5 +56,20 @@ class AdminVolunteerAssignmentsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_volunteer_assignments_path
+  end
+
+  test "removing an approved assignment reopens a full event" do
+    post login_path, params: { login: { username: @admin.username, password: @admin.password, account_type: "admin" } }
+
+    assignment = VolunteerAssignment.create!(volunteer: @volunteer, event: @event, status: :approved)
+    @event.reload
+    assert @event.full?
+
+    assert_difference("VolunteerAssignment.count", -1) do
+      delete admin_volunteer_assignment_path(assignment)
+    end
+
+    assert_redirected_to admin_volunteer_assignments_path
+    assert @event.reload.open?
   end
 end
