@@ -41,13 +41,13 @@ class AdminAnalyticsController < ApplicationController
 
   def build_volunteer_activity_summary(assignments)
     rows = assignments.joins(:volunteer)
-                      .group("volunteers.id", "volunteers.full_name")
-                      .order("volunteers.full_name")
+                      .group(Arel.sql("volunteers.id"), Arel.sql("volunteers.full_name"))
+                      .order(Arel.sql("volunteers.full_name"))
                       .pluck(
-                        "volunteers.id",
-                        "volunteers.full_name",
-                        "COUNT(DISTINCT volunteer_assignments.event_id)",
-                        "COALESCE(SUM(volunteer_assignments.hours_worked), 0)"
+                        Arel.sql("volunteers.id"),
+                        Arel.sql("volunteers.full_name"),
+                        Arel.sql("COUNT(DISTINCT volunteer_assignments.event_id)"),
+                        Arel.sql("COALESCE(SUM(volunteer_assignments.hours_worked), 0)")
                       )
 
     rows.map do |volunteer_id, volunteer_name, events_participated, total_hours|
@@ -66,13 +66,13 @@ class AdminAnalyticsController < ApplicationController
 
   def build_event_participation_summary(assignments)
     rows = assignments.joins(:event)
-                      .group("events.id", "events.title")
-                      .order("events.title")
+                      .group(Arel.sql("events.id"), Arel.sql("events.title"))
+                      .order(Arel.sql("events.title"))
                       .pluck(
-                        "events.id",
-                        "events.title",
-                        "COUNT(DISTINCT volunteer_assignments.volunteer_id)",
-                        "COALESCE(SUM(volunteer_assignments.hours_worked), 0)"
+                        Arel.sql("events.id"),
+                        Arel.sql("events.title"),
+                        Arel.sql("COUNT(DISTINCT volunteer_assignments.volunteer_id)"),
+                        Arel.sql("COALESCE(SUM(volunteer_assignments.hours_worked), 0)")
                       )
 
     rows.map do |event_id, event_title, volunteer_count, total_hours|
